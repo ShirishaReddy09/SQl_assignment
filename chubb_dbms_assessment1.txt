@@ -1,0 +1,116 @@
+mysql> CREATE DATABASE guvi;
+
+mysql> USE guvi;
+
+//users table
+mysql> CREATE TABLE users(student_name varchar(20),student_email varchar(30));
+
+
+mysql> INSERT INTO users(student_name,student_email) VALUES('siri','siri@gmail.com'),('sweety','sweety@gmail.com'),('sam
+mu','sammu@gmail.com'),('mouni','mouni@gmail.com'),('sabbu','sabbu@gmail.com');
+
+//codekata table
+mysql> CREATE TABLE codekata(student_email varchar(20),num_prblms_solved int);
+
+
+mysql> INSERT INTO codekata(student_email,num_prblms_solved) VALUES('siri@gmail.com',5),('sweety@gmail.com',6),('sammu@g
+mail.com',7),('mouni@gmail.com',8),('sabbu@gmail.com',9);
+
+//attendance table
+mysql> CREATE TABLE attendance(student_name varchar(20),percentage int);
+
+
+mysql> INSERT INTO attendance(student_name,percentage) VALUES('siri',96),('sweety',95),('sammu',97),('mouni',94),('sabbu
+',98);
+
+//topics table
+mysql> CREATE TABLE topics(topic_name varchar(20));
+
+
+mysql> INSERT INTO topics(topic_name) VALUES('creation'),('alter'),('update'),('insert'),('delete');
+
+//tasks table
+mysql> CREATE TABLE tasks(student_name varchar(20),task_name varchar(20),student_status varchar(20));
+
+
+mysql> INSERT INTO tasks(student_name,task_name,student_status) VALUES('siri','week_1','not completed'),('sweety','week_
+2','completed'),('sammu','week_2','completed'),('mouni','week1','completed'),('sabbu','week2','not completed');
+
+//cmpnydrives table
+mysql> CREATE TABLE cmpnydrives(student_name varchar(20),cmpny varchar(20));
+
+
+mysql> INSERT INTO cmpnydrives(student_name,cmpny)VALUES('siri','CHUBB'),('sweety','CHUBB'),('sammu','CHUBB'),('mouni','
+CHUBB'),('sabbu','CHUBB'),('sweety','Microsoft');
+
+//mentors table
+mysql> CREATE TABLE mentors(mentor_name varchar(20),student_name varchar(20));
+
+
+mysql> INSERT INTO mentors VALUES('John','siri'),('John','sweety'),('Bob','sammu'),('Alice','mouni'),('Bob','sabbu');
+
+//student_activated_courses table
+mysql> CREATE TABLE student_activated_courses(courseid int,student_name varchar(20));
+
+
+mysql> INSERT INTO student_activated_courses(courseid,student_name) VALUES(1,'siri'),(1,'sweety'),(2,'sammu'),(3,'mouni'
+),(4,'sabbu'),(5,'siri');
+
+// courses table
+mysql> CREATE TABLE  courses(courseid int,course_name varchar(20));
+
+
+mysql> INSERT INTO courses(courseid,course_name) VALUES(1,'Python'),(2,'Java'),(3,'.Net'),(4,'AngularJS'),(5,'NodeJS');
+
+//To get no.of problems solved in codcata by combining the users. 
+mysql> SELECT u.student_name,c.num_prblms_solved from users u join codekata c ON u.student_email=c.student_email;
++--------------+-------------------+
+| student_name | num_prblms_solved |
++--------------+-------------------+
+| siri         |                 5 |
+| sweety       |                 6 |
+| sammu        |                 7 |
+| mouni        |                 8 |
+| sabbu        |                 9 |
++--------------+-------------------+
+
+//Display no.of company drives attended by a user.
+mysql> SELECT COUNT(cmpny) FROM cmpnydrives WHERE student_name='siri';
++--------------+
+| COUNT(cmpny) |
++--------------+
+|            1 |
++--------------+
+ 
+//Combine  and display students_activated_courses and  courses for a specific user grouping them based on course
+mysql> SELECT s.student_name,c.courseid,c.course_name from student_activated_courses s join courses c ON s.courseid=c.co
+urseid where user_name='siri' GROUP BY c.course_name;
++--------------+----------+-------------+
+| student_name | courseid | course_name |
++--------------+----------+-------------+
+| siri         |        5 |  NodeJS 	|
+| siri         |        1 |  Python     |
++--------------+----------+-------------+
+
+//list all the members
+mysql> SELECT DISTINCT mentor_name FROM mentors;
++-------------+
+| mentor_name |
++-------------+
+| John        |
+| Bob         |
+| Alice       |
++-------------+
+
+//list the number of students that are assigned for a mentor
+mysql> SELECT count(student_name) FROM mentors WHERE mentor_name='John';
++---------------------+
+| count(student_name) |
++---------------------+
+|                   2 |
++---------------------+
+
+
+
+
+
